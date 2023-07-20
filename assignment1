@@ -1,0 +1,553 @@
+Exercise 1
+
+class Book {
+    String title;
+    String author;
+    int publicationYear;
+
+    public Book(String title, String author, int publicationYear) {
+        this.title = title;
+        this.author = author;
+        this.publicationYear = publicationYear;
+    }
+
+    @Override
+    public String toString() {
+        return "Title: " + title + ", Author: " + author + ", Publication Year: " + publicationYear;
+    }
+}
+class Node {
+    Book data; // Book object
+    Node next; // Reference to the next node
+
+    public Node(Book book) {
+        data = book;
+        next = null;
+    }
+}
+
+class LinkedList {
+    Node head; // Reference to the first node in the linked list
+
+    // Method to add a book to the beginning of the linked list
+    public void addBookAtBeginning(Book book) {
+        Node newNode = new Node(book);
+        newNode.next = head;
+        head = newNode;
+    }
+
+    // Method to add a book to the end of the linked list
+    public void addBookAtEnd(Book book) {
+        Node newNode = new Node(book);
+        if (head == null) {
+            head = newNode;
+        } else {
+            Node current = head;
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.next = newNode;
+        }
+    }
+
+    // Method to remove a book from the beginning of the linked list
+    public Book removeBookFromBeginning() {
+        if (head == null) {
+            return null; // Empty list
+        }
+        Book removedBook = head.data;
+        head = head.next;
+        return removedBook;
+    }
+
+    // Method to remove a book from the end of the linked list
+    public Book removeBookFromEnd() {
+        if (head == null) {
+            return null; // Empty list
+        }
+        if (head.next == null) {
+            Book removedBook = head.data;
+            head = null;
+            return removedBook;
+        }
+        Node current = head;
+        while (current.next.next != null) {
+            current = current.next;
+        }
+        Book removedBook = current.next.data;
+        current.next = null;
+        return removedBook;
+    }
+
+    // Method to print the list of books in reverse order
+    public void printReverseOrder() {
+        printReverseOrderRecursively(head);
+    }
+
+    private void printReverseOrderRecursively(Node node) {
+        if (node == null) {
+            return;
+        }
+        printReverseOrderRecursively(node.next);
+        System.out.println(node.data);
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        LinkedList bookList = new LinkedList();
+
+        bookList.addBookAtEnd(new Book("Book 1", "Author 1", 2000));
+        bookList.addBookAtEnd(new Book("Book 2", "Author 2", 2010));
+        bookList.addBookAtEnd(new Book("Book 3", "Author 3", 2020));
+
+        bookList.addBookAtBeginning(new Book("Book 0", "Author 0", 1990));
+
+        System.out.println("List of books:");
+        bookList.printReverseOrder();
+
+        System.out.println("\nRemoving a book from the beginning:");
+        Book removedBook = bookList.removeBookFromBeginning();
+        if (removedBook != null) {
+            System.out.println("Removed: " + removedBook);
+        }
+
+        System.out.println("\nRemoving a book from the end:");
+        removedBook = bookList.removeBookFromEnd();
+        if (removedBook != null) {
+            System.out.println("Removed: " + removedBook);
+        }
+
+        System.out.println("\nList of books after removal:");
+        bookList.printReverseOrder();
+    }
+}
+
+
+
+
+
+EXERCISE 2
+class WebPage {
+    String url;
+    String timestamp;
+
+    public WebPage(String url, String timestamp) {
+        this.url = url;
+        this.timestamp = timestamp;
+    }
+
+    @Override
+    public String toString() {
+        return "URL: " + url + ", Timestamp: " + timestamp;
+    }
+}
+import java.util.Stack;
+
+class WebPageStack {
+    private Stack<WebPage> stack;
+
+    public WebPageStack() {
+        stack = new Stack<>();
+    }
+
+    public void addWebPage(WebPage webPage) {
+        stack.push(webPage);
+    }
+
+    public WebPage removeMostRecentWebPage() {
+        return stack.pop();
+    }
+
+    public WebPage peekMostRecentWebPage() {
+        return stack.peek();
+    }
+
+    public boolean isEmpty() {
+        return stack.isEmpty();
+    }
+
+    public int size() {
+        return stack.size();
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        WebPageStack webPageStack = new WebPageStack();
+
+        // Add web pages to the stack
+        WebPage webPage1 = new WebPage("https://www.example.com", "2023-07-20 10:30:00");
+        WebPage webPage2 = new WebPage("https://www.example.com/page2", "2023-07-20 11:15:00");
+        webPageStack.addWebPage(webPage1);
+        webPageStack.addWebPage(webPage2);
+
+        System.out.println("Stack size: " + webPageStack.size());
+
+        // Remove the most recent web page from the stack
+        WebPage removedWebPage = webPageStack.removeMostRecentWebPage();
+        System.out.println("Removed web page: " + removedWebPage);
+        System.out.println("Stack size: " + webPageStack.size());
+
+        // Print the most recent web page without removing it from the stack
+        WebPage mostRecentWebPage = webPageStack.peekMostRecentWebPage();
+        System.out.println("Most recent web page: " + mostRecentWebPage);
+
+        // Check if the stack is empty
+        System.out.println("Is stack empty? " + webPageStack.isEmpty());
+    }
+}
+
+
+
+
+EXERCISE 3
+class Order {
+    String customerName;
+    String drinkType;
+    String size;
+
+    public Order(String customerName, String drinkType, String size) {
+        this.customerName = customerName;
+        this.drinkType = drinkType;
+        this.size = size;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer: " + customerName + ", Drink: " + drinkType + ", Size: " + size;
+    }
+}
+import java.util.LinkedList;
+import java.util.Queue;
+
+class OrderQueue {
+    private Queue<Order> queue;
+
+    public OrderQueue() {
+        queue = new LinkedList<>();
+    }
+
+    public void addOrder(Order order) {
+        queue.add(order);
+    }
+
+    public Order removeNextOrder() {
+        return queue.poll();
+    }
+
+    public boolean isEmpty() {
+        return queue.isEmpty();
+    }
+
+    public int size() {
+        return queue.size();
+    }
+
+    public Order peekNextOrder() {
+        return queue.peek();
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        OrderQueue orderQueue = new OrderQueue();
+
+        // Add orders to the queue
+        Order order1 = new Order("Customer 1", "Latte", "Medium");
+        Order order2 = new Order("Customer 2", "Cappuccino", "Small");
+        orderQueue.addOrder(order1);
+        orderQueue.addOrder(order2);
+
+        System.out.println("Queue size: " + orderQueue.size());
+
+        // Remove the next order from the queue
+        Order removedOrder = orderQueue.removeNextOrder();
+        System.out.println("Removed order: " + removedOrder);
+
+        // Check if the queue is empty
+        System.out.println("Is queue empty? " + orderQueue.isEmpty());
+
+        // Print the next order without removing it from the queue
+        Order nextOrder = orderQueue.peekNextOrder();
+        System.out.println("Next order: " + nextOrder);
+
+        // Remove another order from the queue
+        Order removedOrder2 = orderQueue.removeNextOrder();
+        System.out.println("Removed order: " + removedOrder2);
+
+        // Check if the queue is empty
+        System.out.println("Is queue empty? " + orderQueue.isEmpty());
+    }
+}
+
+
+
+
+EXERCISE 4
+class Song {
+    String title;
+    String artist;
+    int duration; // Duration in seconds
+
+    public Song(String title, String artist, int duration) {
+        this.title = title;
+        this.artist = artist;
+        this.duration = duration;
+    }
+
+    @Override
+    public String toString() {
+        return "Title: " + title + ", Artist: " + artist + ", Duration: " + duration + " seconds";
+    }
+}
+class Node {
+    Song data; // Song object
+    Node next; // Reference to the next node
+
+    public Node(Song song) {
+        data = song;
+        next = null;
+    }
+}
+
+class Playlist {
+    private Node head; // Reference to the first node in the playlist
+    private Node tail; // Reference to the last node in the playlist
+
+    public Playlist() {
+        head = null;
+        tail = null;
+    }
+
+    public void addSongAtBeginning(Song song) {
+        Node newNode = new Node(song);
+        if (head == null) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            newNode.next = head;
+            head = newNode;
+        }
+    }
+
+    public void addSongAtEnd(Song song) {
+        Node newNode = new Node(song);
+        if (tail == null) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail.next = newNode;
+            tail = newNode;
+        }
+    }
+
+    public Song removeSongFromBeginning() {
+        if (head == null) {
+            return null; // Empty playlist
+        }
+        Song removedSong = head.data;
+        if (head == tail) {
+            head = null;
+            tail = null;
+        } else {
+            head = head.next;
+        }
+        return removedSong;
+    }
+
+    public Song removeSongFromEnd() {
+        if (tail == null) {
+            return null; // Empty playlist
+        }
+        Song removedSong = tail.data;
+        if (head == tail) {
+            head = null;
+            tail = null;
+        } else {
+            Node current = head;
+            while (current.next != tail) {
+                current = current.next;
+            }
+            current.next = null;
+            tail = current;
+        }
+        return removedSong;
+    }
+
+    public void shufflePlaylist() {
+        // Convert the linked list to an array
+        Song[] songsArray = toArray();
+
+        // Shuffle the array
+        shuffleArray(songsArray);
+
+        // Convert the shuffled array back to a linked list
+        head = null;
+        tail = null;
+        for (Song song : songsArray) {
+            addSongAtEnd(song);
+        }
+    }
+
+    private Song[] toArray() {
+        int size = size();
+        Song[] songsArray = new Song[size];
+        Node current = head;
+        int index = 0;
+        while (current != null) {
+            songsArray[index++] = current.data;
+            current = current.next;
+        }
+        return songsArray;
+    }
+
+    private void shuffleArray(Song[] songsArray) {
+        Random random = new Random();
+        for (int i = songsArray.length - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1);
+            Song temp = songsArray[i];
+            songsArray[i] = songsArray[j];
+            songsArray[j] = temp;
+        }
+    }
+
+    public void printPlaylist() {
+        Node current = head;
+        while (current != null) {
+            System.out.println(current.data);
+            current = current.next;
+        }
+    }
+
+    public int size() {
+        int count = 0;
+        Node current = head;
+        while (current != null) {
+            count++;
+            current = current.next;
+        }
+        return count;
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        Playlist playlist = new Playlist();
+
+        // Add songs to the playlist
+        Song song1 = new Song("Song 1", "Artist 1", 180);
+        Song song2 = new Song("Song 2", "Artist 2", 210);
+        Song song3 = new Song("Song 3", "Artist 3", 150);
+        playlist.addSongAtEnd(song1);
+        playlist.addSongAtEnd(song2);
+        playlist.addSongAtEnd(song3);
+
+        // Print the playlist
+        System.out.println("Playlist:");
+        playlist.printPlaylist();
+
+        // Add a song to the beginning of the playlist
+        Song newSong = new Song("New Song", "New Artist", 240);
+        playlist.addSongAtBeginning(newSong);
+
+        System.out.println("\nPlaylist after adding a song to the beginning:");
+        playlist.printPlaylist();
+
+        // Remove a song from the end of the playlist
+        Song removedSong = playlist.removeSongFromEnd();
+        System.out.println("\nRemoved song: " + removedSong);
+
+        System.out.println("\nPlaylist after removing a song from the end:");
+        playlist.printPlaylist();
+
+        // Shuffle the playlist
+        playlist.shufflePlaylist();
+
+        System.out.println("\nShuffled playlist:");
+        playlist.printPlaylist();
+    }
+}
+
+
+
+
+
+EXERCISE 5
+class Action {
+    String type;
+    String parameters;
+
+    public Action(String type, String parameters) {
+        this.type = type;
+        this.parameters = parameters;
+    }
+
+    @Override
+    public String toString() {
+        return "Type: " + type + ", Parameters: " + parameters;
+    }
+}
+import java.util.Stack;
+
+class DrawingApp {
+    private Stack<Action> undoStack;
+    private Stack<Action> redoStack;
+
+    public DrawingApp() {
+        undoStack = new Stack<>();
+        redoStack = new Stack<>();
+    }
+
+    public void addActionToUndoStack(Action action) {
+        undoStack.push(action);
+        redoStack.clear(); // Clear the redo stack when a new action is added to the undo stack
+    }
+
+    public Action removeFromUndoStackAndAddToRedoStack() {
+        Action removedAction = undoStack.pop();
+        redoStack.push(removedAction);
+        return removedAction;
+    }
+
+    public Action removeFromRedoStackAndAddToUndoStack() {
+        Action removedAction = redoStack.pop();
+        undoStack.push(removedAction);
+        return removedAction;
+    }
+
+    public Action peekUndoStack() {
+        return undoStack.peek();
+    }
+
+    public void printMostRecentAction() {
+        if (!undoStack.isEmpty()) {
+            System.out.println("Most recent action: " + undoStack.peek());
+        }
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        DrawingApp drawingApp = new DrawingApp();
+
+        // Add actions to the undo stack
+        drawingApp.addActionToUndoStack(new Action("draw", "x=100, y=200, color=blue"));
+        drawingApp.addActionToUndoStack(new Action("move", "shape=rectangle, x=150, y=250"));
+        drawingApp.addActionToUndoStack(new Action("resize", "shape=circle, radius=50"));
+
+        // Print the most recent action without removing it from the undo stack
+        drawingApp.printMostRecentAction();
+
+        // Remove the most recent action from the undo stack and add it to the redo stack
+        Action removedAction = drawingApp.removeFromUndoStackAndAddToRedoStack();
+        System.out.println("Removed action: " + removedAction);
+
+        // Print the most recent action again
+        drawingApp.printMostRecentAction();
+
+        // Remove the most recent action from the redo stack and add it to the undo stack
+        removedAction = drawingApp.removeFromRedoStackAndAddToUndoStack();
+        System.out.println("Removed action from redo stack: " + removedAction);
+
+        // Print the most recent action again
+        drawingApp.printMostRecentAction();
+    }
+}
+
+
